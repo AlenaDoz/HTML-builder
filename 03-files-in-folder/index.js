@@ -9,19 +9,13 @@ async function findFiles(searchPath) {
             file.path = searchPath;
             nFiles.push(file);
         }
-        else if (file.isDirectory()) {
-            let newSearchPath = [...searchPath];
-            newSearchPath.push(file.name + '');
-            let newFiles = await findFiles(newSearchPath);
-            nFiles = [...nFiles, ...newFiles];
-        }
     }
     return nFiles;
 }
 async function getStats() {
     let files = await findFiles(['secret-folder']);
     for (let file of files) {
-        fs.stat(path.join(__dirname, ...file.path), (err, stats) => {
+        fs.stat(path.join(__dirname, ...file.path, file.name), (err, stats) => {
             if (err) {
                 throw err;
             }
