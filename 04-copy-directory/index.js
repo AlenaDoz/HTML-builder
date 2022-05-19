@@ -18,6 +18,5 @@ async function copyMaker() {
     files.forEach(async file => {
         await fsPromises.copyFile(path.join(__dirname, 'files', file.name), path.join(__dirname, 'files-copy', file.name));
     });
-    console.log(files);
 }
 copyMaker();
