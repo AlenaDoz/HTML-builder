@@ -21,11 +21,24 @@ async function findFiles(searchPath) {
     }
     return [nFiles, nDirectories];
 }
+async function remover() {
+    let files_directories = await findFiles(['project-dist', 'assets']);
+    let files = files_directories[0];
+    let directories = files_directories[1];
+    for (const file of files) {
+        await fsPromises.rm(path.join(__dirname, ...file.path, file.name));
+    }
+    for (const file of directories) {
+        await fsPromises.rmdir(path.join(__dirname, ...file.path, file.name));
+    }
+}
+
 async function copyMaker() {
     await fsPromises.mkdir(path.join(__dirname, 'project-dist', 'assets'), { recursive: true });
     let files_directories = await findFiles(['assets']);
     let files = files_directories[0];
     let directories = files_directories[1];
+    await remover();
     directories.forEach(async (directory) => {
         let newPath = ['project-dist', ...directory.path];
         await fsPromises.mkdir(path.join(__dirname, ...newPath, directory.name), { recursive: true });
@@ -74,6 +87,7 @@ async function findHtmlFiles(searchPath) {
     }
     return nFiles;
 }
+
 async function buildHtml() {
     let files = await findHtmlFiles(['components']);
     await fsPromises.writeFile(path.join(__dirname, 'project-dist', 'index.html'), '');

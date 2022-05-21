@@ -37,11 +37,8 @@ async function copyMaker() {
     files.forEach(async file => {
         let newPath = [...file.path];
         newPath[0] = 'files-copy';
-        console.log('zxcvbnm,.');
         await fsPromises.copyFile(path.join(__dirname, ...file.path, file.name), path.join(__dirname, ...newPath, file.name));
     });
-    let bubble = await findFiles(['files-copy']);
-    console.log(bubble);
 }
 copyMaker();
 
@@ -55,5 +52,4 @@ async function remover() {
     for (const file of directories) {
         await fsPromises.rmdir(path.join(__dirname, ...file.path, file.name));
     }
-    console.log('files are deleted');
 }
