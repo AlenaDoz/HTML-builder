@@ -5,7 +5,7 @@ const { stdout, stdin, exit } = process;
 stdout.write('Enter text:\n');
 stdin.on('data', (data) => {
     const readableData = data.toString();
-    if (readableData == 'exit' + '\n') {
+    if (readableData.trim() == 'exit') {
         exit();
     }
     fs.appendFile(path.join(__dirname, 'destination.txt'), readableData, (err) => {
